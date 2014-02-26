@@ -69,7 +69,7 @@ namespace AutoOnline
         bool IsPoeRunning()
         {
             return Process.GetProcesses().Any(
-                process => process.ProcessName.Equals("PathOfExile", StringComparison.InvariantCultureIgnoreCase));
+                process => process.ProcessName.ToLower().Contains("pathofexile"));
         }
 
         private void Form1_Load(object sender, EventArgs e)
