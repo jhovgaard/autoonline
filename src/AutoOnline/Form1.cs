@@ -2,8 +2,10 @@
 using System.Deployment.Application;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Windows.Forms;
 
 namespace AutoOnline
@@ -39,7 +41,7 @@ namespace AutoOnline
 
         bool SendUpdateToXyz()
         {
-            var url = new Uri(textBox1.Text);
+            var url = new Uri(XyzUrlTextBox.Text);
             var req = (HttpWebRequest) WebRequest.Create(url);
             req.Method = "POST";
             req.AllowAutoRedirect = false;
@@ -60,9 +62,52 @@ namespace AutoOnline
                 return false;    
             }
             req.Abort(); // Abort to be sure requests don't hang
+            ShopIndexerStatusLabel.Text = DateTime.Now.ToShortTimeString() + " (Next: " + DateTime.Now.AddHours(1).ToShortTimeString() + ")";
+            
+            return true;
+        }
+
+        bool SendUpdateToPoeMarkets()
+        {
+            var url = PoemarketsUrlTextBox.Text;
+            if (!url.EndsWith("/"))
+                url += "/";
+            url += "status";
+
+            var uri = new Uri(url);
+
+            var postData = "utf8=%E2%9C%93&_method=put&duration=1";
+            var byteArray = Encoding.UTF8.GetBytes(postData);
+            
+            var request = (HttpWebRequest)WebRequest.Create(url);
+            request.ContentType = "application/x-www-form-urlencoded";
+            request.ContentLength = byteArray.Length;
+            request.Method = "POST";
+            request.AllowAutoRedirect = false;
+
+            HttpWebResponse response = null;
+            try
+            {
+                var dataStream = request.GetRequestStream();
+                dataStream.Write(byteArray, 0, byteArray.Length);
+                dataStream.Close();
+                response = (HttpWebResponse) request.GetResponse();
+
+            }
+            catch (WebException ex)
+            {
+                MessageBox.Show("Connection failed. Poemarkets returned: " + ex.Message);
+                return false;
+            }
+
+            if (response.Headers["Location"].ToLower() != PoemarketsUrlTextBox.Text.ToLower())
+            {
+                MessageBox.Show("Connection failed. Wrong Poemarkets Seller Page URL.");
+                return false;
+            }
+            request.Abort(); // Abort to be sure requests don't hang
 
             ShopIndexerStatusLabel.Text = DateTime.Now.ToShortTimeString() + " (Next: " + DateTime.Now.AddHours(1).ToShortTimeString() + ")";
-            poeStatusTimer.Interval = 60 * 60 * 1000; // Set timer to only check PoE status every 1 hour
             return true;
         }
 
@@ -74,7 +119,8 @@ namespace AutoOnline
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            textBox1.Text = Properties.Settings.Default.OnlineLink;
+            XyzUrlTextBox.Text = Properties.Settings.Default.OnlineLink;
+            PoemarketsUrlTextBox.Text = Properties.Settings.Default.PoemarketsUrl;
             UpdateStatus();
             poeStatusTimer.Tick += UpdateStatus;
             poeStatusTimer.Start();
@@ -92,38 +138,73 @@ namespace AutoOnline
                 }
                 try
                 {
-                    new Uri(textBox1.Text);
-                    textBox1.Enabled = false;
+                    if (!string.IsNullOrWhiteSpace(XyzUrlTextBox.Text))
+                    {
+                        new Uri(XyzUrlTextBox.Text);
+                    }
+                        
                 }
                 catch (Exception)
                 {
-                    textBox1.BackColor = Color.LightPink;
+                    XyzUrlTextBox.BackColor = Color.LightPink;
+                    return;
+                }
+
+                try
+                {
+                    if (!string.IsNullOrWhiteSpace(PoemarketsUrlTextBox.Text))
+                    {
+                        new Uri(PoemarketsUrlTextBox.Text);
+                    }
+                }
+                catch (Exception)
+                {
+                    PoemarketsUrlTextBox.BackColor = Color.LightPink;
                     return;
                 }
 
                 ShopIndexerStatusLabel.Text = "Connecting...";
 
-                var couldSendOnlineUpdate = SendUpdateToXyz();
-                if (!couldSendOnlineUpdate)
+                XyzUrlTextBox.Enabled = false;
+                PoemarketsUrlTextBox.Enabled = false;
+
+                bool couldSendUpdateToXyz = false;
+                if (!string.IsNullOrWhiteSpace(XyzUrlTextBox.Text))
+                {
+                    couldSendUpdateToXyz = SendUpdateToXyz();
+                }
+
+                bool couldSendUpdateToPoeMarkets = false;
+                if (!string.IsNullOrWhiteSpace(PoemarketsUrlTextBox.Text))
+                {
+                    couldSendUpdateToPoeMarkets = SendUpdateToPoeMarkets();
+                }
+
+                poeStatusTimer.Interval = 60 * 60 * 1000; // Set timer to only check PoE status every 1 hour
+
+                if (!couldSendUpdateToXyz && !couldSendUpdateToPoeMarkets)
                 {
                     activated = false;
                     ShopIndexerStatusLabel.Text = "N/A";
                     ActivateButton.Text = "Activate";
-                    textBox1.Enabled = true;
+                    XyzUrlTextBox.Enabled = true;
+                    PoemarketsUrlTextBox.Enabled = true;
                     return;
                 }
                 
-                Properties.Settings.Default.OnlineLink = textBox1.Text;
+                Properties.Settings.Default.OnlineLink = XyzUrlTextBox.Text;
+                Properties.Settings.Default.PoemarketsUrl = PoemarketsUrlTextBox.Text;
                 Properties.Settings.Default.Save();
             }
             else
             {
-                textBox1.Enabled = true;
+                XyzUrlTextBox.Enabled = true;
+                PoemarketsUrlTextBox.Enabled = true;
                 ShopIndexerStatusLabel.Text = "N/A";
             }
 
             activated = !activated;           
-            textBox1.ResetBackColor();
+            XyzUrlTextBox.ResetBackColor();
             
             ActivateButton.Text = !activated ? "Activate" : "Deactive";
         }

@@ -34,5 +34,17 @@ namespace AutoOnline.Properties {
                 this["OnlineLink"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string PoemarketsUrl {
+            get {
+                return ((string)(this["PoemarketsUrl"]));
+            }
+            set {
+                this["PoemarketsUrl"] = value;
+            }
+        }
     }
 }

@@ -34,11 +34,13 @@
             this.PoeStatusLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.XyzUrlTextBox = new System.Windows.Forms.TextBox();
             this.ShopIndexerStatusLabel = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.XyzUrlLabel = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.ActivateButton = new System.Windows.Forms.Button();
+            this.PoemarketsUrlLabel = new System.Windows.Forms.Label();
+            this.PoemarketsUrlTextBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // poeStatusTimer
@@ -72,12 +74,12 @@
             this.label3.TabIndex = 5;
             this.label3.Text = "Last updated:";
             // 
-            // textBox1
+            // XyzUrlTextBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(17, 90);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(261, 20);
-            this.textBox1.TabIndex = 1;
+            this.XyzUrlTextBox.Location = new System.Drawing.Point(20, 144);
+            this.XyzUrlTextBox.Name = "XyzUrlTextBox";
+            this.XyzUrlTextBox.Size = new System.Drawing.Size(261, 20);
+            this.XyzUrlTextBox.TabIndex = 2;
             // 
             // ShopIndexerStatusLabel
             // 
@@ -88,19 +90,19 @@
             this.ShopIndexerStatusLabel.TabIndex = 6;
             this.ShopIndexerStatusLabel.Text = "N/A";
             // 
-            // label1
+            // XyzUrlLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(85, 74);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(108, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Enter your online link:";
+            this.XyzUrlLabel.AutoSize = true;
+            this.XyzUrlLabel.Location = new System.Drawing.Point(17, 128);
+            this.XyzUrlLabel.Name = "XyzUrlLabel";
+            this.XyzUrlLabel.Size = new System.Drawing.Size(81, 13);
+            this.XyzUrlLabel.TabIndex = 0;
+            this.XyzUrlLabel.Text = "poe.xyz.is URL:";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(68, 178);
+            this.label4.Location = new System.Drawing.Point(66, 249);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(166, 26);
             this.label4.TabIndex = 7;
@@ -109,32 +111,50 @@
             // 
             // ActivateButton
             // 
-            this.ActivateButton.Location = new System.Drawing.Point(17, 117);
+            this.ActivateButton.Location = new System.Drawing.Point(20, 181);
             this.ActivateButton.Name = "ActivateButton";
             this.ActivateButton.Size = new System.Drawing.Size(261, 43);
-            this.ActivateButton.TabIndex = 2;
+            this.ActivateButton.TabIndex = 3;
             this.ActivateButton.Text = "Activate";
             this.ActivateButton.UseVisualStyleBackColor = true;
             this.ActivateButton.Click += new System.EventHandler(this.ActivateButton_Click);
+            // 
+            // PoemarketsUrlLabel
+            // 
+            this.PoemarketsUrlLabel.AutoSize = true;
+            this.PoemarketsUrlLabel.Location = new System.Drawing.Point(17, 75);
+            this.PoemarketsUrlLabel.Name = "PoemarketsUrlLabel";
+            this.PoemarketsUrlLabel.Size = new System.Drawing.Size(171, 13);
+            this.PoemarketsUrlLabel.TabIndex = 8;
+            this.PoemarketsUrlLabel.Text = "Poemarkets.com Seller Page URL:";
+            // 
+            // PoemarketsUrlTextBox
+            // 
+            this.PoemarketsUrlTextBox.Location = new System.Drawing.Point(20, 91);
+            this.PoemarketsUrlTextBox.Name = "PoemarketsUrlTextBox";
+            this.PoemarketsUrlTextBox.Size = new System.Drawing.Size(261, 20);
+            this.PoemarketsUrlTextBox.TabIndex = 1;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(298, 219);
+            this.ClientSize = new System.Drawing.Size(298, 298);
+            this.Controls.Add(this.PoemarketsUrlLabel);
+            this.Controls.Add(this.PoemarketsUrlTextBox);
             this.Controls.Add(this.ActivateButton);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.XyzUrlLabel);
             this.Controls.Add(this.PoeStatusLabel);
             this.Controls.Add(this.ShopIndexerStatusLabel);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.XyzUrlTextBox);
             this.Controls.Add(this.label3);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "Form1";
-            this.Text = "Auto Online for poe.xyz.is";
+            this.Text = "Auto Online for Shop Indexers";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -147,11 +167,13 @@
         private System.Windows.Forms.Label PoeStatusLabel;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox XyzUrlTextBox;
         private System.Windows.Forms.Label ShopIndexerStatusLabel;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label XyzUrlLabel;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button ActivateButton;
+        private System.Windows.Forms.Label PoemarketsUrlLabel;
+        private System.Windows.Forms.TextBox PoemarketsUrlTextBox;
     }
 }
 
