@@ -62,7 +62,7 @@ namespace AutoOnline
                 return false;    
             }
             req.Abort(); // Abort to be sure requests don't hang
-            ShopIndexerStatusLabel.Text = DateTime.Now.ToShortTimeString() + " (Next: " + DateTime.Now.AddHours(1).ToShortTimeString() + ")";
+            ShopIndexerStatusLabel.Text = DateTime.Now.ToShortTimeString() + " (Next: " + DateTime.Now.AddMinutes(5).ToShortTimeString() + ")";
             
             return true;
         }
@@ -107,7 +107,7 @@ namespace AutoOnline
             }
             request.Abort(); // Abort to be sure requests don't hang
 
-            ShopIndexerStatusLabel.Text = DateTime.Now.ToShortTimeString() + " (Next: " + DateTime.Now.AddHours(1).ToShortTimeString() + ")";
+            ShopIndexerStatusLabel.Text = DateTime.Now.ToShortTimeString() + " (Next: " + DateTime.Now.AddMinutes(5).ToShortTimeString() + ")";
             return true;
         }
 
@@ -180,7 +180,7 @@ namespace AutoOnline
                     couldSendUpdateToPoeMarkets = SendUpdateToPoeMarkets();
                 }
 
-                poeStatusTimer.Interval = 60 * 60 * 1000; // Set timer to only check PoE status every 1 hour
+                poeStatusTimer.Interval = 5 * 60 * 1000; // Set timer to check PoE status every 5 minutes
 
                 if (!couldSendUpdateToXyz && !couldSendUpdateToPoeMarkets)
                 {
