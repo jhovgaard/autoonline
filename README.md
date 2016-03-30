@@ -1,6 +1,8 @@
 Auto Online for poe.xyz.is
 ==========
 
+Notice: I'm not developing on this project anymore. Feel free to send pull requests or make a fork.
+
 ![Auto Online for poe.xyz.is](https://raw.github.com/jhovgaard/autoonline/master/autoonline.png)
 
 Simple application that detects if Path of Exile is running. When it's running the app automatically keeps you online on poe.xyz.is.
